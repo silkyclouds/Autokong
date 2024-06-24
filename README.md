@@ -120,16 +120,5 @@ PROPERTIES = {
 <h3>Cleaning Up</h3>
 <p>After each task, AutoKong ensures that the Docker container is stopped and logs are moved to a backup folder.</p>
 
-<h2>Example Commands</h2>
-<p>Here are some example commands and explanations:</p>
-
-<p><strong>Run the script and analyze the default folder:</strong></p>
-<pre><code>python3 Autokong.py</code></pre>
-
-<p><strong>Analyze a specific folder:</strong></p>
-<pre><code>python3 Autokong.py
-Enter the folder to analyze (default: /path/to/your/music/): /path/to/your/folder
-</code></pre>
-
 <h2>Why Delete the Database?</h2>
 <p>Deleting the SongKong database before each task prevents corruption caused by repeated runs of AutoKong. SongKong reads information directly from the files, so AutoKong does not depend on the SongKong database. I obviously recommend you to run a dedicated container of songkong pointed to a dedicated docker volume in order to keep another instance of your database intact!</p>
