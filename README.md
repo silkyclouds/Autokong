@@ -7,10 +7,6 @@
 
 <h1>AutoKong: Automate SongKong Music Management Tasks</h1>
 
-<video width="600" controls>
-  <source src="Autokong.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 <h2>Introduction</h2>
 <p>AutoKong is a script designed to automate the tasks of the SongKong music management application. SongKong is a powerful tool for managing and organizing your music library. However, processing large folders can be cumbersome and may lead to memory overloads and other issues. AutoKong helps by automating SongKong tasks, ensuring large folders are split into manageable sizes before processing, and providing flexibility in task execution.</p>
