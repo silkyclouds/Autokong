@@ -131,4 +131,4 @@ Enter the folder to analyze (default: /path/to/your/music/): /path/to/your/folde
 </code></pre>
 
 <h2>Why Delete the Database?</h2>
-<p>Deleting the SongKong database before each task prevents corruption caused by repeated runs of AutoKong. SongKong reads information directly from the files, so AutoKong does not depend on the SongKong database.</p>
+<p>Deleting the SongKong database before each task prevents corruption caused by repeated runs of AutoKong. SongKong reads information directly from the files, so AutoKong does not depend on the SongKong database. I obviously recommend you to run a dedicated container of songkong pointed to a dedicated docker volume in order to keep another instance of your database intact!</p>
