@@ -6,7 +6,7 @@ import time
 import threading
 import shutil
 
-# Vérification et installation des dépendances
+# Check dependencies and install them if not present
 try:
     import requests
     from colorama import init, Fore, Style
