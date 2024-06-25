@@ -20,7 +20,7 @@
             <li>Matching songs to MusicBrainz & Discogs</li>
             <li>Matching songs to Bandcamp</li>
             <li>Deleting duplicate songs</li>
-            <li>Renaming and moving songs matched songs</li>
+            <li>Renaming and moving albums / matched songs</li>
         </ul>
     </li>
     <li><strong>Handles Large Folders:</strong> Splits large folders into subfolders of up to 500GB before processing to avoid memory overload and unexpected issues when running SongKong on terabytes of music.</li>
