@@ -75,9 +75,9 @@ processed_folders = []
 
 # Properties for SongKong tasks
 PROPERTIES = {
-    "musicbrainz": "songkong_fixsongs4.properties",
+    "musicbrainz": "songkong_fixsongs.properties",
     "bandcamp": "songkong_bandcamp.properties",
-    "deleteduplicates": "songkong_deleteduplicates2.properties",
+    "deleteduplicates": "songkong_deleteduplicates.properties",
     "rename": "songkong_renamefiles.properties"
 }
 </code></pre>
@@ -122,3 +122,12 @@ PROPERTIES = {
 
 <h2>Why Delete the Database?</h2>
 <p>Deleting the SongKong database before each task prevents corruption caused by repeated runs of AutoKong. SongKong reads information directly from the files, so AutoKong does not depend on the SongKong database. I obviously recommend you to run a dedicated container of songkong pointed to a dedicated docker volume in order to keep another instance of your database intact!</p>
+
+<h2>And in order to help you out, here are my properties files ❤️</h2>
+<p>I try to be a nice guy, so let me share my own properties files with you (they are put alongside the other files in the repo, under the /Prefs folder). It won't make it unnecessary for you to pre-run a SongKong task as previously explained, but I rigorously tested my settings, and I believe these settings are the safest in order to run AutoKong without messing things up. So how does this work? First, run each task using SongKong's web UI; it will create the right files in the /Prefs folder. If you are happy with your settings, there is no need to use the files I attached to this GitHub repo, but if you want to make things work fast and efficiently, you can give these properties files a try.</p>
+
+<h2>the only rule: Be careful!</h2>
+<p>SongKong is a powerful tool; it can help you manage your music library the way you want it to be organized, but it also could screw things up if you do not know what you are doing. So, for GOD's sake, read the configuration files, understand what you are doing, and experiment on a set of files you backed up before jumping blindly into the ocean.</p>
+
+
+
