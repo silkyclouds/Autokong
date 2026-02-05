@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="autokong-logo.png" alt="Autokong logo" width="180" />
+</p>
+
 # Autokong – Automate SongKong and keep Plex in sync
 
 **Autokong** is a companion for [SongKong](https://www.jthink.net/songkong/) that:
@@ -121,6 +125,34 @@ Everything is driven either **manually** from the Run page or by the **integrate
   - Stores Plex URL, token, section ID, and path mappings (unmatched/matched).
   - Can trigger library refreshes for new/updated folders on both dump and matched sides.
   - Can optionally empty the Plex trash after scans.
+
+---
+
+## UI overview
+
+### Run page – full pipeline with live logs
+
+![Autokong run page](autokong-run.png)
+
+The Run page lets you:
+
+- choose the scope and exact folders to process,
+- enable/disable each SongKong step (MusicBrainz, Bandcamp, delete duplicates, rename, cleanup & Plex),
+- see a progress card for the current step/folder,
+- follow the **Autokong pipeline log** and the **SongKong container log** in real time,
+- inspect a summary (and audit report if enabled) once the run is finished.
+
+### Schedule page – cron made visual
+
+![Autokong schedule page](autokong-schedule.png)
+
+The Schedule page lets you:
+
+- enable automatic runs,
+- pick a **daily / weekly / monthly** frequency and configure time of day with numeric pickers,
+- optionally use a raw cron expression for advanced cases,
+- choose the steps and scope for scheduled runs,
+- see the generated cron expression and the next planned run time.
 
 ---
 
