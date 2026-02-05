@@ -111,7 +111,7 @@ def run_pipeline_job(job_id: str, steps: list, scope: str, enable_audit: bool, c
         _job_container_logs[job_id].append(line)
 
     try:
-        import Autokong_nightly_process as pipeline
+        import Autokong as pipeline
         summary = pipeline.run_pipeline(
             steps=steps,
             scope=scope,
@@ -658,7 +658,7 @@ def api_preview():
         yesterday = datetime.now() - timedelta(days=1)
         dump_dirs = [os.path.join(host_root, "Music_dump", yesterday.strftime("%m-%Y"), "")]
     try:
-        import Autokong_nightly_process as pipeline
+        import Autokong as pipeline
         folders = []
         for d in dump_dirs:
             folders.extend(pipeline.get_folders_to_process(scope, d))
