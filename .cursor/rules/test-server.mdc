@@ -1,0 +1,28 @@
+---
+description: Accès SSH au serveur de test Unraid pour déploiement et recréation du conteneur Autokong
+alwaysApply: true
+---
+
+# Serveur de test Unraid
+
+L’agent a accès au **serveur de test** en SSH pour déployer et recréer le conteneur Autokong.
+
+- **Connexion** : `ssh root@192.168.3.2`
+- **Usage** : pour les prochaines mises à jour (build + push Docker), tu peux toi-même recréer le conteneur sur le serveur après un `docker pull meaning/autokong:latest`.
+
+Commandes typiques à enchaîner sur le serveur après un pull :
+
+```bash
+docker stop autokong 2>/dev/null; docker rm autokong 2>/dev/null
+docker pull meaning/autokong:latest
+docker run -d --name autokong \
+  -p 5000:5000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /mnt/downloads_cache/MURRAY/Music:/mnt/downloads_cache/MURRAY/Music \
+  -v /mnt/cache/appdata/songkong:/songkong \
+  -v autokong_data:/app/data \
+  meaning/autokong:latest
+docker ps | grep autokong && docker logs autokong --tail 20
+```
+
+WebUI après déploiement : http://192.168.3.2:5000

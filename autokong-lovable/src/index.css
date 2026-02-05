@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    /* Deep slate dark theme with warm amber accents */
+    --background: 222 47% 8%;
+    --foreground: 210 20% 92%;
+
+    --card: 222 44% 11%;
+    --card-foreground: 210 20% 92%;
+
+    --popover: 222 44% 11%;
+    --popover-foreground: 210 20% 92%;
+
+    /* Warm amber primary - evokes vintage audio equipment */
+    --primary: 38 92% 50%;
+    --primary-foreground: 222 47% 8%;
+
+    --secondary: 222 30% 18%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 222 30% 15%;
+    --muted-foreground: 215 16% 55%;
+
+    --accent: 222 35% 20%;
+    --accent-foreground: 210 20% 92%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 20% 98%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 222 47% 8%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 8%;
+
+    --border: 222 25% 18%;
+    --input: 222 30% 15%;
+    --ring: 38 92% 50%;
+
+    --radius: 0.5rem;
+
+    /* Terminal styling */
+    --terminal-bg: 222 50% 6%;
+    --terminal-text: 142 60% 65%;
+    --terminal-border: 222 30% 12%;
+
+    /* Sidebar - slightly lighter than background */
+    --sidebar-background: 222 44% 10%;
+    --sidebar-foreground: 210 20% 85%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 222 47% 8%;
+    --sidebar-accent: 222 35% 16%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 222 25% 16%;
+    --sidebar-ring: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+}
+
+@layer components {
+  /* Terminal/log styling */
+  .terminal {
+    @apply bg-[hsl(var(--terminal-bg))] border border-[hsl(var(--terminal-border))] rounded-lg;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .terminal-text {
+    @apply text-[hsl(var(--terminal-text))];
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Status badges */
+  .status-ok {
+    @apply bg-success/15 text-[hsl(var(--success))] border-success/30;
+  }
+
+  .status-warning {
+    @apply bg-warning/15 text-[hsl(var(--warning))] border-warning/30;
+  }
+
+  .status-error {
+    @apply bg-destructive/15 text-destructive border-destructive/30;
+  }
+
+  .status-running {
+    @apply bg-primary/15 text-primary border-primary/30;
+  }
+
+  /* Card hover effect */
+  .card-interactive {
+    @apply transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5;
+  }
+
+  /* Section headers */
+  .section-header {
+    @apply text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3;
+  }
+
+  /* Monospace text */
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  /* Glow effects for accent elements */
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(38 92% 50% / 0.15);
+  }
+
+  .glow-success {
+    box-shadow: 0 0 12px hsl(142 71% 45% / 0.2);
+  }
+
+  /* Subtle gradient backgrounds */
+  .bg-gradient-subtle {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--card)) 0%,
+      hsl(222 44% 9%) 100%
+    );
+  }
+
+  /* Focus ring styling */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Autokong",
+  "short_name": "Autokong",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/autokong-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/autokong-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
