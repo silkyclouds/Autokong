@@ -24,7 +24,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY Autokong_nightly_process.py .
+COPY Autokong.py .
 COPY pipeline_audit.py .
 COPY config_manager.py .
 COPY settings_db.py .
