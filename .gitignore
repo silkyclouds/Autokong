@@ -1,0 +1,15 @@
+# Secrets / local environment
+.env
+.env.*
+!.env.example
+
+# Local state produced at runtime
+data/
+*.db
+action_log.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/

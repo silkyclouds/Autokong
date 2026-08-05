@@ -36,6 +36,7 @@ docker run -d --name autokong \
   -v /path/to/your/music:/mnt/downloads_cache/MURRAY/Music \
   -v /path/to/songkong:/songkong \
   -v autokong_data:/app/data \
+  --env-file .env \
   meaning/autokong:latest
 ```
 
@@ -189,6 +190,7 @@ docker run -d --name autokong \
   -v /path/to/your/music:/mnt/downloads_cache/MURRAY/Music \
   -v /path/to/songkong:/songkong \
   -v autokong_data:/app/data \
+  --env-file .env \
   meaning/autokong:latest
 ```
 
@@ -305,6 +307,22 @@ Optional environment variables:
 - `SONGKONG_CONFIG_DIR` – base path of SongKong config on the host (default: `/mnt/cache/appdata/songkong`):
   - Prefs are expected under `$SONGKONG_CONFIG_DIR/Prefs`.
 - `AUTOKONG_CONFIG_PATH` – legacy JSON config path, now superseded by `settings.db` (kept for migration).
+
+### Credentials
+
+All credentials are read from the environment — nothing is hardcoded in the source. Copy
+`.env.example` to `.env`, fill in the values you need, and pass them to the container
+(`docker run --env-file .env ...`) or export them before running `Autokong.py` directly.
+
+| Variable | Purpose |
+| --- | --- |
+| `DISCORD_WEBHOOK` | Discord webhook URL for run notifications. Empty = Discord notifications disabled. |
+| `PUSHOVER_USER_KEY` / `PUSHOVER_API_TOKEN` | Pushover credentials. Both must be set, otherwise Pushover notifications are skipped. |
+| `PLEX_HOST` / `PLEX_TOKEN` | Plex server URL and auth token. Values saved from the WebUI (`settings.db`) take precedence. |
+| `SEND_EMAIL_REPORT` | `true`/`1` to email the HTML report. Disabled by default. |
+| `EMAIL_SENDER`, `EMAIL_RECIPIENT`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USERNAME`, `EMAIL_PASSWORD` | SMTP settings for the email report. |
+
+`.env` is git-ignored — do not commit real credentials.
 
 ---
 

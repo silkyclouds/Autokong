@@ -59,12 +59,14 @@ SONGKONG_IMAGE       = "songkong/songkong"
 HOST_ROOT            = "/mnt/downloads_cache/MURRAY/Music"
 CONTAINER_ROOT       = "/music"
 
-PUSHOVER_USER_KEY    = "u8pztbghz47d689h8nwsctga1jp7z1"
-PUSHOVER_API_TOKEN   = "ajnkq8s9f9ggwg5ooyq9zppxi2z2is"
-DISCORD_WEBHOOK      = "https://discord.com/api/webhooks/1270305634939830449/l1woj5TTffyv489Bx0HIKco6Vu6-IjKRZ2nbljgqMB27Mv4iEQpLKprlQsX8aQw1qVin"
+# Credentials are read from the environment; never hardcode them here.
+# See .env.example for the full list.
+PUSHOVER_USER_KEY    = os.environ.get("PUSHOVER_USER_KEY", "")
+PUSHOVER_API_TOKEN   = os.environ.get("PUSHOVER_API_TOKEN", "")
+DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK", "")
 
-PLEX_HOST            = "http://192.168.3.2:32401"
-PLEX_TOKEN           = "-Axp7JjSoCuNQBHGEBnh"
+PLEX_HOST            = os.environ.get("PLEX_HOST", "http://localhost:32400")
+PLEX_TOKEN           = os.environ.get("PLEX_TOKEN", "")
 PLEX_LIBRARY_SECTION = 1
 PLEX_DUMP_PATH       = "/music/unmatched"
 PLEX_MATCHED_PATH    = "/music/matched"
@@ -78,13 +80,13 @@ AUTOCHECK_ROOT_DIR   = "/mnt/downloads_cache/MURRAY/Music/Music_matched"
 DB_PATH              = "autokong.db"
 LOG_FILE             = "action_log.txt"
 
-SEND_EMAIL_REPORT    = False
-EMAIL_SENDER         = "vous@exemple.com"
-EMAIL_RECIPIENT      = "dest@exemple.com"
-EMAIL_HOST           = "smtp.votreserveur.com"
-EMAIL_PORT           = 587
-EMAIL_USERNAME       = "login"
-EMAIL_PASSWORD       = "motdepasse"
+SEND_EMAIL_REPORT    = os.environ.get("SEND_EMAIL_REPORT", "").strip().lower() in ("1", "true", "yes", "on")
+EMAIL_SENDER         = os.environ.get("EMAIL_SENDER", "")
+EMAIL_RECIPIENT      = os.environ.get("EMAIL_RECIPIENT", "")
+EMAIL_HOST           = os.environ.get("EMAIL_HOST", "")
+EMAIL_PORT           = int(os.environ.get("EMAIL_PORT", "587"))
+EMAIL_USERNAME       = os.environ.get("EMAIL_USERNAME", "")
+EMAIL_PASSWORD       = os.environ.get("EMAIL_PASSWORD", "")
 
 # -----------------------------------------------------------------------------
 # 2) UTILITIES & SQLITE STATE
@@ -187,22 +189,43 @@ def to_host_path(container_path: str) -> str:
     rel = container_path[len(CONTAINER_ROOT):].lstrip("/")
     return os.path.join(HOST_ROOT, rel)
 
-def send_discord(msg: str) -> None:
+def _post_discord(msg: str) -> None:
+    if not DISCORD_WEBHOOK:
+        return
     log_action("→ Sending Discord")
-    r = requests.post(DISCORD_WEBHOOK, json={"content": msg}, timeout=10)
-    if r.status_code not in (200, 204):
-        log_action(f"Discord error {r.status_code}: {r.text}")
+    try:
+        r = requests.post(DISCORD_WEBHOOK, json={"content": msg}, timeout=10)
+        if r.status_code not in (200, 204):
+            log_action(f"Discord error {r.status_code}: {r.text}")
+    except Exception as exc:
+        log_action(f"Discord error: {exc}")
 
+def _post_pushover(msg: str) -> None:
+    if not (PUSHOVER_API_TOKEN and PUSHOVER_USER_KEY):
+        return
     log_action("→ Sending Pushover")
-    requests.post(
-        "https://api.pushover.net/1/messages.json",
-        data={"token": PUSHOVER_API_TOKEN, "user": PUSHOVER_USER_KEY, "message": msg},
-        timeout=10,
-    )
-    send_discord(msg)
+    try:
+        requests.post(
+            "https://api.pushover.net/1/messages.json",
+            data={"token": PUSHOVER_API_TOKEN, "user": PUSHOVER_USER_KEY, "message": msg},
+            timeout=10,
+        )
+    except Exception as exc:
+        log_action(f"Pushover error: {exc}")
+
+def send_discord(msg: str) -> None:
+    """Send a notification to every configured channel (Discord, Pushover).
+
+    Channels without credentials in the environment are silently skipped.
+    """
+    _post_discord(msg)
+    _post_pushover(msg)
 
 def send_email_report(path: str, subject: str) -> None:
     if not SEND_EMAIL_REPORT:
+        return
+    if not (EMAIL_HOST and EMAIL_SENDER and EMAIL_RECIPIENT):
+        log_action("Email report skipped: EMAIL_HOST/EMAIL_SENDER/EMAIL_RECIPIENT not configured")
         return
     html = open(path, "r", encoding="utf-8").read()
     msg = EmailMessage()
@@ -212,7 +235,8 @@ def send_email_report(path: str, subject: str) -> None:
     import smtplib
     with smtplib.SMTP(EMAIL_HOST, EMAIL_PORT) as srv:
         srv.starttls()
-        srv.login(EMAIL_USERNAME, EMAIL_PASSWORD)
+        if EMAIL_USERNAME or EMAIL_PASSWORD:
+            srv.login(EMAIL_USERNAME, EMAIL_PASSWORD)
         srv.send_message(msg)
     log_action("Email report sent")
 
